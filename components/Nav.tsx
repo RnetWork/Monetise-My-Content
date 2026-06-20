@@ -2,10 +2,15 @@
 
 import { useState } from 'react';
 import Link from 'next/link';
+import { usePathname } from 'next/navigation';
 import { BOOKING_URL } from '@/lib/config';
 
 export default function Nav() {
   const [open, setOpen] = useState(false);
+  const pathname = usePathname();
+
+  const pageActive = (href: string) =>
+    href.startsWith('/#') ? false : pathname === href || pathname.startsWith(href + '/');
 
   return (
     <header>
@@ -20,8 +25,8 @@ export default function Nav() {
           <Link href="/#fit" onClick={() => setOpen(false)}>Is this you</Link>
           <Link href="/#pricing" onClick={() => setOpen(false)}>Pricing</Link>
           <Link href="/#faq" onClick={() => setOpen(false)}>FAQ</Link>
-          <Link href="/about" onClick={() => setOpen(false)}>About</Link>
-          <Link href="/blog" onClick={() => setOpen(false)}>Blog</Link>
+          <Link href="/about" className={pageActive('/about') ? 'nav-active' : ''} onClick={() => setOpen(false)}>About</Link>
+          <Link href="/blog" className={pageActive('/blog') ? 'nav-active' : ''} onClick={() => setOpen(false)}>Blog</Link>
         </div>
 
         <Link href={BOOKING_URL} className="nav-cta">Get your free audit</Link>

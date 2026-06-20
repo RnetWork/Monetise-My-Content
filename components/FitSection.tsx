@@ -1,3 +1,8 @@
+'use client';
+
+import { motion } from 'framer-motion';
+import { fadeUp, slideLeft, slideRight, viewport } from '@/lib/motion';
+
 const yesItems = [
   'You have 5K–100K followers with genuine engagement, not bought numbers',
   'You post consistently and have a clear niche people trust you on',
@@ -16,23 +21,53 @@ export default function FitSection() {
   return (
     <section className="fit" id="fit">
       <div className="wrap">
-        <div className="section-head">
+        <motion.div
+          className="section-head"
+          initial="hidden"
+          whileInView="show"
+          viewport={viewport}
+          variants={fadeUp}
+        >
           <span className="section-eyebrow">Is this you?</span>
           <h2>Built for a very specific kind of creator</h2>
-        </div>
+        </motion.div>
+
         <div className="fit-grid">
-          <div className="fit-card yes">
+          <motion.div
+            className="fit-card yes"
+            initial="hidden"
+            whileInView="show"
+            viewport={viewport}
+            variants={slideLeft}
+            whileHover={{
+              y: -5,
+              boxShadow: '0 16px 40px -12px rgba(26,20,16,0.14)',
+              transition: { type: 'spring', stiffness: 280, damping: 22 },
+            }}
+          >
             <h3><span className="fit-dot" />This is a fit if</h3>
             <ul>
               {yesItems.map((item) => <li key={item}>{item}</li>)}
             </ul>
-          </div>
-          <div className="fit-card no">
+          </motion.div>
+
+          <motion.div
+            className="fit-card no"
+            initial="hidden"
+            whileInView="show"
+            viewport={viewport}
+            variants={slideRight}
+            whileHover={{
+              y: -5,
+              boxShadow: '0 16px 40px -12px rgba(26,20,16,0.14)',
+              transition: { type: 'spring', stiffness: 280, damping: 22 },
+            }}
+          >
             <h3><span className="fit-dot" />Probably not yet if</h3>
             <ul>
               {noItems.map((item) => <li key={item}>{item}</li>)}
             </ul>
-          </div>
+          </motion.div>
         </div>
       </div>
     </section>

@@ -1,6 +1,8 @@
 'use client';
 
 import { useState } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
+import { fadeUp, viewport, ease } from '@/lib/motion';
 
 type FaqItem = { q: string; a: string };
 
@@ -33,33 +35,66 @@ export default function FAQ() {
   return (
     <section id="faq">
       <div className="wrap">
-        <div className="section-head">
+        <motion.div
+          className="section-head"
+          initial="hidden"
+          whileInView="show"
+          viewport={viewport}
+          variants={fadeUp}
+        >
           <span className="section-eyebrow">Questions</span>
           <h2>Before you reach out</h2>
-        </div>
-        <div className="faq-list">
+        </motion.div>
+
+        <motion.div
+          className="faq-list"
+          initial="hidden"
+          whileInView="show"
+          viewport={viewport}
+          variants={{
+            hidden: {},
+            show: { transition: { staggerChildren: 0.07 } },
+          }}
+        >
           {faqs.map((item, i) => {
             const isOpen = openIdx === i;
             return (
-              <div key={i} className={`faq-item${isOpen ? ' open' : ''}`}>
-                <button
+              <motion.div
+                key={i}
+                className={`faq-item${isOpen ? ' open' : ''}`}
+                variants={{
+                  hidden: { opacity: 0, y: 10 },
+                  show: { opacity: 1, y: 0, transition: { duration: 0.45, ease } },
+                }}
+              >
+                <motion.button
                   className="faq-q"
                   onClick={() => setOpenIdx(isOpen ? null : i)}
                   aria-expanded={isOpen}
+                  whileHover={{ color: '#2D5C4D' }}
+                  transition={{ duration: 0.18, ease }}
                 >
                   {item.q}
                   <span className="faq-icon" aria-hidden="true" />
-                </button>
-                <div
-                  className="faq-a"
-                  style={isOpen ? { maxHeight: '500px' } : undefined}
-                >
-                  <p>{item.a}</p>
-                </div>
-              </div>
+                </motion.button>
+
+                <AnimatePresence initial={false}>
+                  {isOpen && (
+                    <motion.div
+                      initial={{ height: 0, opacity: 0 }}
+                      animate={{ height: 'auto', opacity: 1 }}
+                      exit={{ height: 0, opacity: 0 }}
+                      transition={{ duration: 0.32, ease }}
+                      style={{ overflow: 'hidden' }}
+                    >
+                      <p className="faq-body">{item.a}</p>
+                    </motion.div>
+                  )}
+                </AnimatePresence>
+              </motion.div>
             );
           })}
-        </div>
+        </motion.div>
       </div>
     </section>
   );

@@ -3,7 +3,7 @@ import { Fraunces, Inter, JetBrains_Mono } from 'next/font/google';
 import './globals.css';
 import Nav from '@/components/Nav';
 import Footer from '@/components/Footer';
-import ScrollAnimations from '@/components/ScrollAnimations';
+import Providers from '@/components/Providers';
 
 const fraunces = Fraunces({
   subsets: ['latin'],
@@ -43,8 +43,9 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     >
       <body>
         <Nav />
-        <ScrollAnimations />
-        {children}
+        <Providers>
+          {children}
+        </Providers>
         <Footer />
       </body>
     </html>

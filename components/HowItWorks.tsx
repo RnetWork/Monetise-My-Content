@@ -1,3 +1,8 @@
+'use client';
+
+import { motion } from 'framer-motion';
+import { staggerContainer, rowItem, fadeUp, viewport, ease } from '@/lib/motion';
+
 const steps = [
   {
     tag: 'Step 1',
@@ -25,25 +30,51 @@ export default function HowItWorks() {
   return (
     <section id="how">
       <div className="wrap">
-        <div className="section-head">
+        <motion.div
+          className="section-head"
+          initial="hidden"
+          whileInView="show"
+          viewport={viewport}
+          variants={fadeUp}
+        >
           <span className="section-eyebrow">How it works</span>
           <h2>We run the business side. You stay the creator.</h2>
           <p>
             No courses to build, no DMs to chase. We embed ourselves as the team
             behind your monetization, start to finish.
           </p>
-        </div>
-        <div className="how-list">
+        </motion.div>
+
+        <motion.div
+          className="how-list"
+          initial="hidden"
+          whileInView="show"
+          viewport={viewport}
+          variants={staggerContainer}
+        >
           {steps.map((s) => (
-            <div key={s.tag} className="how-row">
-              <div className="how-tag">{s.tag}</div>
+            <motion.div
+              key={s.tag}
+              className="how-row"
+              variants={rowItem}
+              whileHover={{
+                background: 'rgba(26,20,16,0.025)',
+                transition: { duration: 0.2 },
+              }}
+            >
+              <motion.div
+                className="how-tag"
+                whileHover={{ color: '#FF6B35', transition: { duration: 0.18, ease } }}
+              >
+                {s.tag}
+              </motion.div>
               <div>
                 <h3>{s.title}</h3>
                 <p>{s.body}</p>
               </div>
-            </div>
+            </motion.div>
           ))}
-        </div>
+        </motion.div>
       </div>
     </section>
   );

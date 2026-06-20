@@ -1,3 +1,8 @@
+'use client';
+
+import { motion } from 'framer-motion';
+import { staggerContainer, cardItem, fadeUp, viewport } from '@/lib/motion';
+
 const problems = [
   {
     num: '01',
@@ -20,7 +25,13 @@ export default function ProblemSection() {
   return (
     <section className="problem">
       <div className="wrap">
-        <div className="section-head">
+        <motion.div
+          className="section-head"
+          initial="hidden"
+          whileInView="show"
+          viewport={viewport}
+          variants={fadeUp}
+        >
           <span className="section-eyebrow">Sound familiar?</span>
           <h2>You&apos;re not under-performing. You&apos;re under-supported.</h2>
           <p>
@@ -28,16 +39,33 @@ export default function ProblemSection() {
             to call you back. So you&apos;re doing content, deals, pricing, and admin —
             alone, on top of everything else.
           </p>
-        </div>
-        <div className="problem-grid">
+        </motion.div>
+
+        <motion.div
+          className="problem-grid"
+          initial="hidden"
+          whileInView="show"
+          viewport={viewport}
+          variants={staggerContainer}
+        >
           {problems.map((p) => (
-            <div key={p.num} className="problem-card">
+            <motion.div
+              key={p.num}
+              className="problem-card"
+              variants={cardItem}
+              whileHover={{
+                y: -4,
+                background: 'rgba(255,248,240,0.07)',
+                borderColor: 'rgba(255,107,53,0.35)',
+                transition: { type: 'spring', stiffness: 300, damping: 22 },
+              }}
+            >
               <span className="num">{p.num}</span>
               <h3>{p.title}</h3>
               <p>{p.body}</p>
-            </div>
+            </motion.div>
           ))}
-        </div>
+        </motion.div>
       </div>
     </section>
   );
